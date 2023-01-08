@@ -4,22 +4,28 @@ import pickle
 import streamlit as st
 from PIL import Image
 
+
 html_temp = """
-	<div style ="background-color:#3d2fd6; padding:13px">
-	<h1 style ="color:#f0f0f5; text-align:center; ">Streamlit Iris Flower Classifier </h1>
+	<div style ="background-color:#3E3F31; padding:5px">
+	<h1 style ="color:#B8EAFF; text-align:center; ">Streamlit Car Price Prediction Project</h1>
 	</div>
 	"""
 
 st.markdown(html_temp, unsafe_allow_html = True)
 
+
 image = Image.open("car.jpg")
 st.image(image, use_column_width=True)
 
+st.empty()
 
 
-st.header("_Car Price Prediction_")
+st.header("Welcome!")
+st.markdown("Please provide your car information on the left sidebar and than click the _Predict the Car Price_ button.")
+st.markdown("After click the button, you will the see your car price as predictably.")
+
 df = pd.read_csv('df_with_feature_imp.csv')
-st.write(df.head())
+
 
 model = pickle.load(open("final_model", "rb"))
 
@@ -60,12 +66,12 @@ if st.button("Predict the Car Price"):
     result = prediction(model, df_pred)[0]
 
 try:
-    st.success(f"Predicted Price of The Car: **{result}**")
-    if df_pred.make_model.str.startswith("Audi"):
-    	st.image(Image.open("audi.png"))
-    elif df_pred.make_model.str.startswith("Opel"):
+    st.success(f"Predicted Price of The Car: **€ {result}**")
+    if df_pred.make_model.str.startswith("Audi").any():
+    	st.image(Image.open("audi.png"), output_format="PNG")
+    elif df_pred.make_model.str.startswith("Opel").any():
         st.image(Image.open("opel.png"))
-    elif df_pred.make_model.str.startswith("Rena"):
+    elif df_pred.make_model.str.startswith("Rena").any():
         st.image(Image.open("renault.png"))
 except NameError:
     st.write("Please **Predict** button to display the result!")
