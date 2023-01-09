@@ -63,7 +63,7 @@ def prediction(model, df_pred):
 
 
 if st.button("Predict the Car Price"):
-    result = prediction(model, df_pred)[0]
+    result = "{:.0f}".format(prediction(model, df_pred)[0])
 
 try:
     st.success(f"Predicted Price of The Car: **€ {result}**")
